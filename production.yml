@@ -3,9 +3,6 @@ web:
   build: ./web
   expose:
     - "8000"
-  links:
-    - postgres:postgres
-    - redis:redis
   volumes:
     - /usr/src/app/static
   env_file: .env
@@ -15,7 +12,7 @@ nginx:
   restart: always
   build: ./nginx/
   ports:
-    - "80:80"
+    - "8080:80"
   volumes:
     - /www/static
   volumes_from:
@@ -23,18 +20,3 @@ nginx:
   links:
     - web:web
 
-postgres:
-  restart: always
-  image: postgres:latest
-  ports:
-    - "5432"
-  volumes:
-    - pgdata:/var/lib/postgresql/data/
-
-redis:
-  restart: always
-  image: redis:latest
-  ports:
-    - "6379"
-  volumes:
-    - redisdata:/data
